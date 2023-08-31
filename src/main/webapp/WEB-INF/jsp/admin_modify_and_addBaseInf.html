@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            padding: 0;
+            margin:  0;
+        }
+        html,body{
+            width: 100%;
+            height: 100%;
+        }
+        #top-add{
+            margin-left: 0px;
+            margin-top: -65px;
+            background-color: #cecccc;
+            position: relative;
+            width: 80%;
+            height: 150px;
+            left: 0%;
+            text-align: center;
+            font-size: 18px;
+            top: 55px;
+            line-height: 80px;
+        }
+        .input-text{
+            width: auto;
+            height: 25px;
+        }
+        #add{
+            display: inline-block;
+            width: 80px;
+            height: 35px;
+        }
+        #table-all{
+            position: relative;
+            width: 75%;
+            height: auto;
+            left: 10%;
+            text-align: center;
+            top: 105px;
+            background-color: #63a35c;
+            font-size: 25px;
+        }
+        #table-all2{
+            position: relative;
+            width: 75%;
+            height: auto;
+            left: 10%;
+            text-align: center;
+            top: 105px;
+            background-color: #63a35c;
+            font-size: 25px;
+        }
+        .button{
+            width: 55px;
+            height:  auto;
+            font-size: 20px;
+        }
+        /* 遮罩层样式 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: none; /* 默认隐藏 */
+        }
+
+        /* 弹窗样式 */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 200px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: none; /* 默认隐藏 */
+            margin-top: -300px;
+            margin-left: -300px;
+        }
+    </style>
+</head>
+<body>
+<div id="top-add">
+    <form id="menu" action="../insert/studentInf">
+        <table style="margin-left: 80px;">
+            <tr>
+                <td>毕业生编号:</td>
+                <td><input type="text" name="id" class="input-text"></td>
+                <td>姓名:</td>
+                <td><input type="text" name="name" class="input-text"></td>
+                <td>性别:</td>
+                <td><input type="text" name="gender" class="input-text"></td>
+                <td>民族:</td>
+                <td><input type="text" name="ethnic" class="input-text"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>籍贯:</td>
+                <td><input type="text" name="place" class="input-text"></td>
+                <td>毕业日期:</td>
+                <td><input type="text" name="graduatetime" class="input-text"></td>
+                <td>专业:</td>
+                <td><input type="text" name="professional" class="input-text"></td>
+                <td>政治面貌:</td>
+                <td><input type="text" name="status" class="input-text"></td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" id="add" style="background-color: lightpink" value="添加" class="input-text"></td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+<br>
+<div style="margin-top: 30px">
+    <h1>学生信息查询</h1>
+    <label for="stuID">毕业生编号:</label>
+    <input type="text" id="stuID" name="studentId">
+    <input type="submit" id="adminQuery" value="查询">
+</div>
+<div id="men-table" style="margin-top: -100px;margin-left: -165px;">
+    <table id="table-all" border="1" cellpadding="0">
+        <tr>
+            <th>毕业生编号</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>民族</th>
+            <th>籍贯</th>
+            <th>毕业日期</th>
+            <th>专业</th>
+            <th>政治面貌</th>
+            <th colspan="2">操作</th>
+        </tr>
+        <tbody id="baseInf"></tbody>
+    </table>
+</div>
+<div class="overlay" id="overlay"></div>
+<div class="popup" id="popup">
+    <form action="../admin/updateBase">
+        <table style="margin-left: 180px;width: 1000px;">
+            <tr>
+                <td>毕业生编号:</td>
+                <td><input type="text" id="id2" name="id" class="input-text" readonly></td>
+                <td>姓名:</td>
+                <td><input type="text" id="name2" name="name" class="input-text"></td>
+                <td>性别:</td>
+                <td><input type="text" id="gender2" class="input-text" disabled></td>
+                <td>民族:</td>
+                <td><input type="text" id="ethnic2" name="ethnic" class="input-text"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>籍贯:</td>
+                <td><input type="text" id="place2" name="place" class="input-text"></td>
+                <td>毕业日期:</td>
+                <td><input type="text" id="graduatetime2" class="input-text"></td>
+                <td>专业:</td>
+                <td><input type="text" id="professional2" name="professional" class="input-text"></td>
+                <td>政治面貌:</td>
+                <td><input type="text" id="status2" name="status" class="input-text"></td>
+            </tr>
+            <tr>
+                <td colspan="4"> <button type="submit">提交</button>
+                    <div class="wenzi1">点击空白处返回</div></td>
+            </tr>
+        </table>
+        <!--<h1>修改密码</h1>
+        <label>
+            账号：
+        </label>
+        <input type="text" value="" name="id" id="acc" readonly/><br><br>
+        <label>姓名：</label>
+        <input type="text" value="" id="name2" disabled/><br><br>
+        <label>密码：</label>
+        <input type="text" value="" name="password" id="pwd" placeholder="密码" /><br><br>
+        &lt;!&ndash;    <button id="closebtn()">关闭</button>&ndash;&gt;-->
+    </form>
+</div>
+<script src="../js/jQuery-3.7.0.js" type="text/javascript"></script>
+<script>
+    window.onload = function () {
+        const popup = document.getElementById('popup');
+
+        document.getElementById("overlay").onclick = function () {
+            document.getElementById("overlay").style.display = "none";
+            popup.style.display = "none";
+        }
+        document.getElementById("adminQuery").onclick = function () {
+            // window.location.href = "../insert/studentInf";
+            getBaseInf();
+        }
+
+        function getBaseInf() {
+            var stuid = $("#stuID").val();
+            console.log("id=" + stuid);
+            $.ajax({
+                url: "../select/specify?id=" + stuid,
+                dataType: "json",
+                success: function (baseInfo) {
+                    var time = baseInfo.graduateTime;
+                    console.log(time);
+                    var date = new Date(time);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                    var Y = date.getFullYear() + '-';
+                    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                    var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
+                    var string = "";
+                    var graduatetime = Y + M + D;
+                    string += "<tr><td id='id3'>"
+                        + baseInfo.graduateID
+                        + "</td><td id='name3'>"
+                        + baseInfo.name
+                        + "</td><td id='gender3'>"
+                        + baseInfo.gender
+                        + "</td><td id='ethnic3'>"
+                        + baseInfo.ethnic
+                        + "</td><td id='place3'>"
+                        + baseInfo.place
+                        + "</td><td id='graduatetime3'>"
+                        + graduatetime
+                        + "</td><td id='professional3'>"
+                        + baseInfo.professional
+                        + "</td><td id='status3'>"
+                        + baseInfo.status
+                        + "</td><td>"
+                        + "<a id='modifybtn'>修改</a> "
+                        + "</td><td>"
+                        + "<a id='deletebtn'>删除</a>"
+                        + "</td></tr>";
+                    document.getElementById("baseInf").innerHTML = string
+                    const popup = document.getElementById('popup');
+                    const overlay = document.getElementById('overlay');
+                    var element = document.getElementById("modifybtn");
+                    element.addEventListener('click', function () {
+                        let td = element.parentElement;
+                        tr = td.parentElement;
+                        const id = tr.cells[0].textContent;
+                        const name = tr.cells[1].textContent;
+                        const gender = tr.cells[2].textContent;
+                        const ethnic = tr.cells[3].textContent;
+                        const place = tr.cells[4].textContent;
+                        const graduatetime = tr.cells[5].textContent;
+                        const professional = tr.cells[6].textContent;
+                        const status = tr.cells[7].textContent;
+                        console.log("1");
+                        popup.style.display = 'block';
+                        overlay.style.display = 'block';
+                        /*var id = $("#id3").val();
+                        var name = $("#name3").val();
+                        var gender = $("#gender3").val();
+                        var ethnic = $("#ethnic3").val();
+                        var place = $("#place3").val();
+                        var graduatetime = $("#graduatetime3").val();
+                        var professional = $("#professional3").val();
+                        var status = $("#status3").val();*/
+                        console.log("id" + id);
+                        $("#id2").attr("value",id);
+                        $("#name2").attr("value",name);
+                        $("#gender2").attr("value",gender);
+                        $("#ethnic2").attr("value",ethnic);
+                        $("#place2").attr("value",place);
+                        $("#graduatetime2").attr("value",graduatetime);
+                        $("#professional2").attr("value",professional);
+                        $("#status2").attr("value",status);
+                    })
+                }
+            })
+        }
+    }
+</script>
+
+</body>
+</html>
+

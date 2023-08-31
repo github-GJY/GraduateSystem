@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduate.dao.UserDao">
+    <select id="selectUser" resultType="User">
+        select account,password from user where account=#{account} and password=#{password}
+    </select>
+
+    <select id="selectUser2" resultType="User">
+        select account,password from user where account=#{graduateID} and password=#{oldPwd}
+    </select>
+
+    <select id="selectAdmin" resultType="Admin">
+        select account,password from admin where account=#{account} and password=#{password}
+    </select>
+
+    <select id="selectUserList" resultType="java.util.Map">
+        select account,password,name from user,studentinf where graduateID=account
+    </select>
+
+    <update id="updatePwd">
+        update user set password=#{password} where account=#{account} and password=#{password}
+    </update>
+
+    <update id="updatePwd2">
+        update user set password=#{newPwd} where account=#{graduateID}
+    </update>
+
+
+    <select id="findUser" resultType="java.util.Map">
+        select account,name,password from user,studentinf where user.account = #{account} and studentinf.graduateID=#{account}
+    </select>
+
+    <insert id="insertAccount">
+        insert into user(account) values(account=#{account})
+    </insert>
+
+    <select id="selectUserAccount" resultType="User">
+        select account from user where account=#{graduateID}
+    </select>
+</mapper>

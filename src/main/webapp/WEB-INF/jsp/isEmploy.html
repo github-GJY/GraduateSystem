@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="button"] {
+            width: 20%;
+            background-color: #4caf50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="button"]:hover {
+            background-color: #4caf50;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <label for="student-id">毕业生编号:</label>
+    <input type="text" id="student-id" name="student-id">
+    <input id="query" type="button" value="查询">
+    <table border="1" width="900px" height="120px"
+           style="font-size: 20px;line-height: 1px;margin-left: -100px;margin-top: 20px">
+        <th>graduateID</th>
+        <th>name</th>
+        <th>workplace</th>
+        <th>worknature</th>
+        <th>duties</th>
+        <th>address</th>
+        <th>worktime</th>
+        <th>就业状态</th>
+        <tbody id="findworkinf"></tbody>
+    </table>
+    <script src="js/jQuery-3.7.0.js" type="text/javascript"></script>
+    <script>
+        window.onload = function () {
+            document.getElementById("query") .onclick = function () {
+                getEmployStudentInf();
+            }
+
+        }
+        function getEmployStudentInf(){
+            $.ajax({
+                url:"select/employmentInf?id=20231001",
+                dataType:"json",
+                success:function (employInf) {
+                    console.log(employInf)
+                    let string = "";
+                    if (employInf==null){
+                        string += "<td><td>"
+                            + employInf.graduateID
+                            + "</td><td>"
+                            + employInf.graduateBaseInf.name
+                            + "</td><td>"
+                            + "暂无"
+                            + "</td><td>"
+                            + "暂无"
+                            + "</td><td>"
+                            + "暂无"
+                            + "</td><td>"
+                            + "暂无"
+                            + "</td><td>"
+                            + "暂无"
+                            + "</td><td>"
+                            + "未就业"
+                            + "</td></tr>"
+                    }else {
+                        string += "<tr><td>"
+                            + employInf.graduateID
+                            + "</td><td>"
+                            + employInf.name
+                            + "</td><td>"
+                            + employInf.workplace
+                            + "</td><td>"
+                            + employInf.worknature
+                            + "</td><td>"
+                            + employInf.duties
+                            + "</td><td>"
+                            + employInf.address
+                            + "</td><td>"
+                            + employInf.worktime
+                            + "</td><td>"
+                            + "已就业"
+                            + "</tr></td>"
+                    }
+                    document.getElementById("findworkinf").innerHTML =string
+
+                }
+            })
+        }
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduate.dao.AdminGraduateBaseInfDao">
+    <select id="selectPortion" resultType="GraduateBaseInf">
+        select * from studentinf;
+    </select>
+
+    <select id="selectSpecify" resultType="GraduateBaseInf">
+        select * from studentinf where graduateID=#{graduateID}
+    </select>
+
+    <update id="updateGraduateBaseInf">
+        update studentinf set name=#{name},ethnic=#{ethnic},place=#{place},
+                             professional=#{professional},status=#{status}
+        where graduateID=#{graduateID}
+    </update>
+</mapper>

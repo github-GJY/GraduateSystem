@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="conf/jdbc.properties"/>
+
+    <!--sql日志输出控制台-->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="callSettersOnNulls" value="true"/>
+    </settings>
+    <!--别名设置-->
+    <typeAliases>
+        <package name="com.graduate.enity"/>
+    </typeAliases>
+    <!--mapper映射文件包名配置-->
+    <mappers>
+        <mapper resource="com/graduate/dao/UserDao.xml"/>
+        <mapper resource="com/graduate/dao/GraduateBaseInfDao.xml"/>
+        <mapper resource="com/graduate/dao/AdminGraduateBaseInfDao.xml"/>
+    </mappers>
+</configuration>

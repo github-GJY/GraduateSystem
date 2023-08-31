@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduate.dao.GraduateEmploymentInfDao">
+    <select id="selectGraduateEmploymentInf" resultType="GraduateEmploymentInf">
+        select * from workinfo where graduateID=#{graduateID}
+    </select>
+
+    <update id="updateGraduateEmploymentInf">
+        update workinfo set graduateID=#{graduateID},worktime=#{worktime},workplace=#{workplace},
+                                   worknature=#{worknature},duties=#{duties},address=#{address}
+    </update>
+
+    <delete id="deleteGraduateEmploymentInf">
+        delete from workinfo where graduateID=#{graduateID}
+    </delete>
+
+    <select id="selectIsEmployStudentInf" resultType="java.util.Map">
+        select studentinf.graduateID,name,worktime,workplace,worknature, duties,address from studentinf,workinfo
+        where studentinf.graduateID=workinfo.graduateID and studentinf.graduateID=#{graduateID}
+    </select>
+
+    <select id="findEmploy" resultType="GraduateEmploymentInf">
+        select * from workinfo where EXISTS (select * from studentinf)
+    </select>
+
+    <select id="finAllProfessional" resultType="ProfessionalNumber">
+        SELECT
+            professional,
+            count( professional ) number
+        FROM
+            studentinf
+        GROUP BY
+            professional
+    </select>
+
+    <select id="findAllEmployProfessional" resultType="ProfessionalNumber">
+        SELECT
+            professional,
+            count( professional ) number
+        FROM
+            studentinf
+        WHERE
+            graduateID IN ( SELECT graduateID FROM workinfo )
+        GROUP BY
+            professional
+    </select>
+
+    <select id="selectNoEmployStudentInf" resultType="GraduateBaseInf">
+        SELECT graduateID,name from studentinf where graduateID not in (select graduateID from workinfo)
+    </select>
+    
+    <select id="selectStudentEmployInf" resultType="StudentEmployAndName">
+        select studentinf.graduateID,name,workinfo.worktime,workinfo.workplace,
+               workinfo.worknature,workinfo.duties,workinfo.address 
+        from studentinf,workinfo where workinfo.graduateID = #{graduateID} 
+                                   and workinfo.graduateID = studentinf.graduateID
+    </select>
+    
+    <update id="updateStudentEmployInf">
+        update workinfo set worktime=#{worktime},workplace=#{workplace},
+                            worknature=#{worknature},duties=#{duties},address=#{address}
+            where graduateID=#{graduateID}
+    </update>
+
+    <insert id="insertGraduateEmploymentInf">
+        insert into workinfo values(#{graduateID},#{worktime},#{workplace},#{worknature},#{duties},#{address})
+    </insert>
+</mapper>

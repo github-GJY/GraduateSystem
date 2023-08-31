@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--开启controller组件扫描，以及视图解析器配置-->
+    <context:component-scan base-package="com.graduate.controller"/>
+
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+    </bean>
+    <!---->
+    <mvc:default-servlet-handler/>
+
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <!--页面显示设置编码-->
+                        <value>text/html;charset=UTF-8</value>
+                        <!--要转为json的转码-->
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <mvc:resources mapping="/js/**" location="/js/"/>
+    <mvc:resources mapping="/image/**" location="/image/"/>
+    <mvc:resources mapping="/css/**" location="/css/"/>
+    <!--拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/insert/**"/>
+            <mvc:mapping path="/admin/**"/>
+            <mvc:mapping path="/select/**"/>
+            <mvc:mapping path="/find/**"/>
+            <mvc:mapping path="/delete/**"/>
+            <mvc:mapping path="/update/**"/>
+            <mvc:mapping path="/forward/**"/>
+            <mvc:mapping path="/remove/**"/>
+            <mvc:exclude-mapping path="/css/**"/>
+            <mvc:exclude-mapping path="/js/**"/>
+            <mvc:exclude-mapping path="/image/**"/>
+          <!--  <mvc:exclude-mapping path="index.jsp"/>
+            <mvc:exclude-mapping path="/loginl"/>
+            <mvc:exclude-mapping path="/login.html"/>
+            <mvc:exclude-mapping path="/login.do"/>-->
+            <bean class="com.graduate.handler.HandlerIntercept"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>

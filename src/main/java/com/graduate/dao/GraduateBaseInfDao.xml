@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduate.dao.GraduateBaseInfDao">
+    <select id="selectGraduateBaseInf" resultType="GraduateBaseInf">
+        select *
+        from studentinf;
+    </select>
+
+    <insert id="insertGraduateBaseInf">
+
+        insert into studentinf values(#{graduateID},#{name},#{gender},#{ethnic},#{place},
+                                      #{graduatetime},#{professional},#{status})
+    </insert>
+
+    <insert id="insertStudentAccount">
+        insert into user(account) select graduateID from studentinf where graduateID not in (SELECT account from user)
+    </insert>
+
+    <update id="updateGraduateBaseInf">
+        update studentinf set name=#{name},ethnic=#{ethnic},place=#{place},status=#{status} where graduateID=#{graduateID}
+    </update>
+
+    <delete id="deleteGraduateBaseInf">
+        delete from studentinf where graduateID=#{graduateID}
+    </delete>
+
+    <select id="findOwnStudentInf" resultType="GraduateBaseInf">
+        select * from studentinf where graduateID=#{graduateID}
+    </select>
+
+</mapper>

@@ -1,0 +1,28 @@
+.xx{
+    font-size: 28px;
+    font-weight: bold;
+    margin-left: 500px;
+    position: absolute;
+    top:  -50px;
+}
+.xingxi {
+    width: 300px;
+    position: absolute;
+    background: aliceblue;
+    padding: 15px;
+    margin-left: 100px;
+
+
+}
+.desc{
+    position: absolute;
+    font-size: 12px;
+    line-height: 20px;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    margin-left: 140px;
+    margin-top: -20px;
+    margin-bottom: 30px;
+
+
+}

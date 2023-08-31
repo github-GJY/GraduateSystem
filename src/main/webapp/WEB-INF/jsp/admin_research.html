@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>学生信息查询</title>
+    <style>
+        /* 给页面添加一些炫酷的样式 */
+        body {
+            background-color: #f4f4f4;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+            margin: 0 auto 0 100px;
+        }
+
+        input[type="text"] {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            width: 20%;
+            background-color: #3F3D56;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #3F3D56;
+        }
+
+        .xingxi {
+            margin-left: 430px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>学生就业信息查询</h1>
+    <label for="student-id-admin">毕业生编号:</label>
+    <input type="text" id="student-id-admin" name="student-id">
+    <input type="submit" id="researchbtn_admin" value="查询">
+</div>
+<div class="xingxi">
+    <table border="1" width="1000px" height="500px"
+           style="font-size: 15px;line-height: 1px;margin-left: -250px;margin-top: 20px">
+
+        <th>毕业生编号</th>
+        <th>姓名</th>
+        <th>工作时间</th>
+        <th>工作单位</th>
+        <th>工作性质</th>
+        <th>职务</th>
+        <th>工作地址</th>
+
+        <tbody id="specify_student_employ" align="center"></tbody>
+    </table>
+</div>
+<script type="text/javascript" src="../js/jQuery-3.7.0.js"></script>
+<script>
+    window.onload = function () {
+        document.getElementById("researchbtn_admin").onclick = function () {
+            getSpecify();
+        }
+    }
+
+    function getSpecify() {
+
+        var graduateID = $("#student-id-admin").val();
+        console.log(graduateID);
+        $.ajax({
+            url: "../select/employmentInf?id=" + graduateID,
+            dataType: "json",
+            success: function (specify) {
+                let str = "<tr><td>";
+                var worktime = specify.worktime;
+                var date = new Date(worktime);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                var Y = date.getFullYear() + '-';
+                var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1):date.getMonth()+1) + '-';
+                var D = (date.getDate()< 10 ? '0'+date.getDate():date.getDate())+ ' ';
+                str += specify.graduateID
+                    + "</td><td>" + specify.name
+                    + "</td><td>" + Y+M+D
+                    + "</td><td>" + specify.workplace
+                    + "</td><td>" + specify.worknature
+                    + "</td><td>" + specify.duties
+                    + "</td><td>" + specify.address
+                    + "</td></tr>"
+                console.log(str);
+                document.getElementById("specify_student_employ").innerHTML = str;
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

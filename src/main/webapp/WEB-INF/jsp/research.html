@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>学生信息查询</title>
+    <style>
+        /* 给页面添加一些炫酷的样式 */
+        body {
+            background-color: #f4f4f4;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+            margin: 0 auto 0 100px;
+        }
+
+        input[type="text"] {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            width: 20%;
+            background-color: #3F3D56;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #3F3D56;
+        }
+
+        .xingxi {
+            margin-left: 430px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>学生信息查询</h1>
+    <label for="student-id">毕业生编号:</label>
+    <input type="text" id="student-id" name="student-id">
+    <input type="submit" id="researchbtn" value="查询">
+</div>
+<div class="xingxi">
+    <table border="1" width="1000px" height="500px"
+           style="font-size: 15px;line-height: 1px;margin-left: -250px;margin-top: 20px">
+
+            <th>毕业生编号</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>民族</th>
+            <th>籍贯</th>
+            <th>专业</th>
+            <th>毕业时间</th>
+            <th>政治面貌</th>
+
+        <tbody id="specify_student" align="center"></tbody>
+    </table>
+</div>
+<script type="text/javascript" src="../js/jQuery-3.7.0.js"></script>
+<script>
+    window.onload = function () {
+        getPortion();
+        document.getElementById("researchbtn").onclick = function () {
+            getSpecify();
+    }
+    }
+
+    function getSpecify() {
+
+            var graduateID = $("#student-id").val();
+            console.log(graduateID);
+            $.ajax({
+                url: "../select/specify?id=" + graduateID,
+                dataType: "json",
+                success: function (specify) {
+                    let str = "<tr><td>";
+                    var time = specify.graduateTime;
+                    var date = new Date(time);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                    var Y = date.getFullYear() + '-';
+                    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1):date.getMonth()+1) + '-';
+                    var D = (date.getDate()< 10 ? '0'+date.getDate():date.getDate())+ ' ';
+                        str += specify.graduateID
+                            + "</td><td>" + specify.name
+                            + "</td><td>" + specify.gender
+                            + "</td><td>" + specify.ethnic
+                            + "</td><td>" + specify.place
+                            + "</td><td>" + specify.professional
+                            + "</td><td>" + Y+M+D
+                            + "</td><td>" + specify.status
+                            + "</td></tr>"
+                    console.log(str);
+                    document.getElementById("specify_student").innerHTML = str;
+                }
+            })
+
+    }
+    function getPortion() {
+        $.ajax({
+            url: "../select/portion",
+            dataType: "json",
+            success:function (baseInf) {
+                var string = "";
+                for (let i = 0; i < baseInf.length; i++) {
+                    var time = baseInf[i].graduateTime;
+                    var date = new Date(time);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                    var Y = date.getFullYear() + '-';
+                    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                    var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
+                    var graduatetime = Y + M + D;
+                    string += "<tr><td>"
+                        + baseInf[i].graduateID
+                        + "</td><td>"
+                        + baseInf[i].name
+                        + "</td><td>"
+                        + baseInf[i].gender
+                        + "</td><td>"
+                        + baseInf[i].ethnic
+                        + "</td><td>"
+                        + baseInf[i].place
+                        + "</td><td>"
+                        + baseInf[i].professional
+                        + "</td><td>"
+                        + graduatetime
+                        + "</td><td>"
+                        + baseInf[i].status
+                        + "</td></tr>";
+                }
+                document.getElementById("specify_student").innerHTML = string;
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

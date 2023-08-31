@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        /* 给页面添加一些炫酷的样式 */
+        body {
+            background-color: #f4f4f4;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+            margin: 0 auto 0 100px;
+        }
+
+        input[type="text"] {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            width: 20%;
+            background-color: #3F3D56;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #3F3D56;
+        }
+
+        .xingxi {
+            margin-left: 430px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>学生已就业信息查询</h1>
+    <label for="employ-student-id">毕业生编号:</label>
+    <input type="text" id="employ-student-id" name="student-id">
+    <input type="submit" id="queryReadyEmploy" value="查询">
+</div>
+<div class="xingxi">
+    <table border="1" width="1000px"
+           style="height:200px;font-size: 15px;line-height: 1px;margin-left: -250px;margin-top: 20px">
+
+        <th>毕业生编号</th>
+        <th>姓名</th>
+        <th>工作时间</th>
+        <th>工作单位</th>
+        <th>工作性质</th>
+        <th>职务</th>
+        <th>地址</th>
+
+        <tbody id="alreadyPeople" align="center"></tbody>
+    </table>
+</div>
+<script src="../js/jQuery-3.7.0.js" type="text/javascript"></script>
+<script>
+    window.onload = function () {
+        loadIndex();
+        document.getElementById("queryReadyEmploy").onclick = function () {
+            getPartial();
+        }
+    }
+    function getPartial() {
+        var graduateID = $("#employ-student-id").val();
+        console.log("id" + graduateID);
+        $.ajax({
+            url:"../find/already_employ?id=" + graduateID,
+            dataType:"json",
+            success:function (alreadyEmploy) {
+                console.log(alreadyEmploy);
+                let str = "";
+                var id = $("#employ-student-id").val();
+                    var time = alreadyEmploy.worktime;
+                    var date = new Date(time);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                    var Y = date.getFullYear() + '-';
+                    var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                    var D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate()) + ' ';
+                    if (alreadyEmploy.graduateID == id) {
+                        str += "<tr><td>"
+                            + alreadyEmploy.graduateID
+                            + "</td><td>" + alreadyEmploy.name
+                            + "</td><td>" + Y + M + D
+                            + "</td><td>" + alreadyEmploy.workplace
+                            + "</td><td>" + alreadyEmploy.worknature
+                            + "</td><td>" + alreadyEmploy.duties
+                            + "</td><td>" + alreadyEmploy.address
+                            + "</td></tr>";
+                        document.getElementById("alreadyPeople").innerHTML = str;
+                        return;
+                    }
+                        str += "<tr><td colspan='7'>"
+                            + "该生未就业或编号有误"
+                            + "</td></tr>";
+                console.log(str);
+                document.getElementById("alreadyPeople").innerHTML = str;
+            }
+        })
+    }
+    function loadIndex() {
+        var string = "";
+        string += "<tr><td colspan='7'>"
+        +"暂时还没有查询的信息哦"
+            +"</td></tr>";
+        console.log(string);
+        document.getElementById("alreadyPeople").innerHTML = string;
+    }
+</script>
+</body>
+</html>

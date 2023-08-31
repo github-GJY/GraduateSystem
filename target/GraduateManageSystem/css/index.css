@@ -1,0 +1,285 @@
+/* css样式初始化 */
+* {
+    height: 80px;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: .2s linear;
+}
+
+html {
+    font-size: 62.5%;
+}
+/* header样式初始化*/
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: #3F3D56;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header .logo {
+    color: white;
+    padding: 0 1rem;
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 24px;
+}
+/* 导航样式 */
+.navbar ul{
+    display: flex;
+}
+
+.navbar ul li{
+    margin-top: 18px;
+    font-weight: bold;
+    width: 128px;
+    list-style: none;
+    text-align:center;
+}
+.navbar ul li a {
+    width: 128px;
+    line-height: 45px;
+    font-size: 1.7rem;
+    color: white;
+}
+.navbar ul li a:hover{
+    color: #009933;
+}
+
+
+
+
+
+
+
+
+*{
+    padding: 0;
+    margin: 0;
+}
+a{
+    text-decoration: none;
+}
+li,ol,ul{
+    list-style: none;
+}
+.clear{
+    clear: both;
+    height: 0;
+    line-height: 0;
+    overflow: hidden;
+    font-size: 0;
+}
+.body{
+    font-family: "microsoft yahei",verdana,"pingFang SC",simsun;
+}
+textarea{
+    resize: none;
+}
+button,
+input[type=submit],
+input[type=button],
+input[type=reset]
+{
+    cursor: pointer;
+}
+
+
+
+.box{
+    width: 280px;
+    height: 1000px;
+    background:#3F3D56;
+    margin-left: -40px;
+}
+/* .box img{
+	position: relative;
+	margin-left: 120px;
+	margin-top: 80px;
+	margin-bottom: 10px;
+} */
+.pagenav_ul > li > a{
+    font-size: 20px;
+    font-family: "arial rounded mt bold";
+    color: #fff;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    transition:all 0.5s;
+    text-align: center;
+    display: block;
+}
+.pagenav_ul >li{
+    position: relative;
+    background:#3F3D56;
+}
+.pagenav_ul{
+    line-height: 50px;
+    margin-top: 80px;
+}
+.pagenav_ul > li > a:hover{
+    background: #3b0a52;
+
+}
+.pagenav_ul > li:hover > a{
+    background: #3b0a52;
+
+}
+.submenu{
+    width: 200px;
+    text-align: center;
+    position: absolute;
+    top: 0px;
+    left: 280px;
+    display: none;
+}
+.submenu>li>a{
+    color: #fff;
+    display: block;
+    font-size: 20px;
+    line-height: 50px;
+}
+.submenu>li>a:hover{
+    background: #f80;
+}
+.submenu>li{
+    background: #3b0a52;
+}
+.submenu.show{
+    display: block;
+}
+.submenu.show>li:nth-child(1){
+    animation: showMenu 0.5s both;
+}
+.submenu.show>li:nth-child(2){
+    animation: showMenu 0.5s 0.2s both;
+}
+.submenu.show>li:nth-child(3){
+    animation: showMenu 0.5s 0.4s both;
+}
+.submenu.show>li:nth-child(4){
+    animation: showMenu 0.5s 0.6s both;
+}
+@keyframes showMenu{
+    0%{
+        opacity: 0;
+        transform: scale(0,0);
+    }
+    100%{
+        opacity: 1;
+        transform: scale(1,1);
+    }
+}
+
+
+input[type="text"] {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    width: 20%;
+    background-color: #4caf50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.an button {
+    background-color: dodgerblue;
+    color: white;
+    width: 200px;
+    height: 40px;
+    border: 0;
+    font-size: 16px;
+    border-radius: 10px;
+
+}
+
+.an {
+    margin-left: 600px;
+}
+
+label {
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+input[type="text"], select {
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 20px;
+    color: #555;
+}
+
+select option {
+    color: #555;
+}
+button {
+    padding: 5px 10px;
+    border-radius: 3px;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0069d9;
+}
+.wenzi1{
+    margin-top: -25px;
+    margin-left: 50px;
+}
+
+     /* 遮罩层样式 */
+ .overlay {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     background-color: rgba(0,0,0,0.5);
+     display: none; /* 默认隐藏 */
+
+ }
+
+/* 弹窗样式 */
+.popup {
+    position: fixed;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 100px 100px 400px 100px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: none; /* 默认隐藏 */
+    margin-top: -100px;
+    margin-left: 300px;
+}
+
+#loginbtn{
+    display: none;
+}

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户管理</title>
+    <style>
+        /* 给页面添加一些炫酷的样式 */
+        body {
+            background-color: #f4f4f4;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+             max-width: 600px;
+             margin: 0 auto;
+             padding: 20px;
+             text-align: center;
+         }
+
+        input[type="text"] {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            width: 20%;
+            background-color: #4caf50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .an button {
+            background-color: dodgerblue;
+            color: white;
+            width: 200px;
+            height: 40px;
+            border: 0;
+            font-size: 16px;
+            border-radius: 10px;
+
+        }
+
+        .an {
+            margin-left: 600px;
+        }
+        /* 遮罩层样式 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: none; /* 默认隐藏 */
+        }
+
+        /* 弹窗样式 */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 100px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: none; /* 默认隐藏 */
+            margin-top: -300px;
+            margin-left: -300px;
+        }
+        label {
+            width: 100px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"], select {
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 20px;
+            color: #555;
+        }
+
+        select option {
+            color: #555;
+        }
+        button {
+            padding: 5px 10px;
+            border-radius: 3px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0069d9;
+        }
+        .wenzi1{
+            margin-top: -25px;
+            margin-left: 50px;
+        }
+
+    </style>
+</head>
+<body style="background-color: aliceblue; ">
+<div class="container">
+    <h1>用户管理</h1>
+    <label for="student-id">毕业生编号:</label>
+    <input type="text" id="student-id" name="student-id">
+    <input type="button" id="querybtn" value="查询">
+</div>
+<table align="center" border="2" width="600px" height="300px"
+       style="font-size: 15px;line-height: 50px; margin-left: 110px;">
+
+    <th>毕业生编号</th>
+    <th>姓名</th>
+    <th>密码</th>
+    <th>删除</th>
+    <th>修改密码</th>
+    <tbody align="center" id="showuser"></tbody>
+    <!-- <tr class="an"><td> <button >删除</button></td>
+         <td><button >修改密码</button></td></tr>-->
+
+</table>
+<div class="overlay" id="overlay"></div>
+<div class="popup" id="popup">
+<form action="../update/userpwd">
+    <h1>修改密码</h1>
+    <label>
+        账号：
+    </label>
+    <input type="text" value="" name="id" id="acc" readonly/><br><br>
+    <label>姓名：</label>
+    <input type="text" value="" id="name" disabled/><br><br>
+    <label>密码：</label>
+    <input type="text" value="" name="password" id="pwd" placeholder="密码" /><br><br>
+<!--    <button id="closebtn()">关闭</button>-->
+    <button type="submit">提交</button>
+    <div class="wenzi1">点击空白处返回</div>
+</form>
+</div>
+<script type="text/javascript" src="../js/jQuery-3.7.0.js"></script>
+<script>
+    window.onload = function () {
+        getUser();
+        const popup=document.getElementById('popup');
+        document.getElementById("overlay").onclick = function () {
+            document.getElementById("overlay").style.display = "none";
+            popup.style.display = "none";
+        }
+        document.getElementById("querybtn").onclick = function () {
+            queryBtn();
+        }
+    }
+    let i = 0;
+function queryBtn(){
+        var graduateID = $("#student-id").val();
+        console.log(graduateID);
+        $.ajax({
+            url:"../find/user?graduateID=" + graduateID,
+            dataType: "json",
+            success:function (user) {
+                var string = "";
+               string += "<tr><td>"
+                        + user.account
+                        + "</td><td>"
+                        + user.name
+                        +"</td><td>"
+                        + user.password
+                   +"</td><td>"
+                   + "<a href=''>删除</a></td><td>"
+                   + "<button id=" + "'openbtn" + i + "'>修改密码</button></td><td>"
+                   + "</td></tr>";
+                document.getElementById("showuser").innerHTML = string;
+
+            }
+        })
+}
+    function getUser() {
+        $.ajax({
+            url: "../select/user",
+            dataType: "json",
+            success: function (user) {
+                console.log(user)
+                let string = "";
+                var account =0;
+                var  password;
+                for (var key in user) {
+                    i++;
+                    var value = user[key];
+                    account = value.account;
+                    password = value.password;
+                    var name = value.name;
+                    string += "<tr><td>"
+                        + account
+                        + "</td><td>"
+                        + name
+                        + "</td><td>"
+                        + password
+                        + "</td><td>"
+                        + "<a href=''>删除</a></td><td>"
+                        + "<button id=" + "'openbtn" + i + "'>修改密码</button></td><td>"
+                        + "</td></tr>";
+                }
+                document.getElementById("showuser").innerHTML = string
+                var tagName = document.getElementsByTagName("button");
+                const popup=document.getElementById('popup');
+                const overlay=document.getElementById('overlay');
+                let td;
+                let tr;
+                for (let j = 0; j < tagName.length; j++) {
+                    tagName[j].addEventListener('click',function(){
+                        // 获取按钮所在的单元格元素td
+                         td = tagName[j].parentElement;
+
+                        // 获取单元格所在的行元素tr
+                        tr = td.parentElement;
+
+                        // 获取行元素tr中的第一个单元格的内容（即ID）
+                        const acc = tr.cells[0].textContent;
+                        console.log(account);
+                        const name = tr.cells[1].textContent;
+                        const pwd = tr.cells[2].textContent;
+                        console.log(password)
+                        popup.style.display='block';
+                        overlay.style.display='block';
+                        $("#acc").attr("value",acc);
+                        $("#name").attr("value",name);
+                        $("#pwd").attr("value",pwd);
+                    })
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>
